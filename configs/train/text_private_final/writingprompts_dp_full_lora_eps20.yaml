@@ -1,0 +1,37 @@
+run_name: dp_full_lora_eps20
+dataset_key: writingprompts
+split_name: train_full
+model_name_or_path: meta-llama/Llama-2-7b-hf
+output_subdir: writingprompts
+max_seq_len: 2048
+num_train_epochs: 10
+per_device_train_batch_size: 8
+learning_rate: 0.0001
+gradient_accumulation_steps: 1
+lora_r: 64
+lora_alpha: 32
+lora_dropout: 0.05
+dp_enabled: true
+target_epsilon: 20.0
+delta: 1.0e-05
+max_grad_norm: 1.0
+dp_accountant: rdp
+dp_secure_mode: false
+dp_grad_sample_mode: ghost
+dp_poisson_sampling: true
+dp_max_physical_batch_size: 8
+logging_steps: 10
+save_steps: 500
+seed: 1337
+use_cpu: false
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags:
+  - text
+  - writingprompts
+  - dp
+  - eps20
+  - new_final

@@ -1,0 +1,51 @@
+experiment:
+  name: mia_dp_eps20_laion_mi
+  output_dir: outputs/inference/final_workflows/laion_mi/mia_dp_eps20
+project:
+  run_name: mia_dp_eps20_laion_mi
+  output_root: outputs/inference
+  seed: 1337
+dataset:
+  name: laion_mi
+  modality: image
+  member_split: train_full
+  nonmember_split: mi_reserve_not_in_training
+models:
+  target:
+    checkpoint_dir: completed_runs/laion_mi/dp_full_finetune_eps20__20260505-055122-rczo
+cache:
+  output_dir: outputs/inference/final_workflows/laion_mi/mia_dp_eps20
+  overwrite: false
+cpk:
+  enabled: false
+mia:
+  limit: 1000
+  batch_size: 16
+  num_workers: 4
+pia:
+  norm_p: 4
+  default_timestep: 200
+  beta_schedule: pipeline
+mia_analysis:
+  fpr_grid:
+  - 0.01
+  - 0.05
+  - 0.1
+  fpr_points: 100
+runtime:
+  device: cuda
+  strict_adapter_load: true
+  amp: true
+  diffusion_dtype: fp16
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags:
+  - mia
+  - final_mia
+  - laion_mi
+  - image
+  - dp
+  - eps20

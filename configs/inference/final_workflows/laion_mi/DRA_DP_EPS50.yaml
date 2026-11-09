@@ -1,0 +1,71 @@
+experiment:
+  name: dra_dp_eps50_laion_mi
+  output_dir: outputs/inference/final_workflows/laion_mi/dra_dp_eps50
+project:
+  run_name: dra_dp_eps50_laion_mi
+  output_root: outputs/inference
+  seed: 1337
+dataset:
+  name: laion_mi
+  modality: image
+  target_split: train_full
+models:
+  target:
+    checkpoint_dir: completed_runs/laion_mi/dp_full_finetune_eps50__20260505-065050-1o56
+cache:
+  output_dir: outputs/inference/final_workflows/laion_mi/dra_dp_eps50
+  overwrite: false
+  save_generated_artifacts: tensor
+cpk:
+  enabled: false
+dra_generation:
+  target_limit: 1000
+  num_candidates_per_target: 10
+  target_batch_size: 10
+generation:
+  num_inference_steps: 20
+  guidance_scale: 7.5
+pia:
+  default_timestep: 200
+  norm_p: 4
+mia:
+  batch_size: 64
+dra_distance:
+  image_metrics:
+  - normalized_l2
+  - lpips
+  - clip
+  - ssim
+  - dreamsim
+  image_size: 224
+  batch_size: 8
+  image_chunk_size: 32
+  ssim_batch_size: 32
+  lpips_batch_size: 16
+  clip_batch_size: 32
+  dreamsim_batch_size: 8
+  lpips_backbone: alex
+  clip_model: openai/clip-vit-base-patch32
+  dreamsim_model: ensemble
+runtime:
+  device: cuda
+  strict_adapter_load: true
+  monitor:
+    enabled: true
+    show_rate: true
+    log_interval_batches: 10
+    leave_bars: false
+    disable_diffusers_inner_bar: true
+    stage_prints: true
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags:
+  - dra
+  - final_dra
+  - laion_mi
+  - image
+  - dp
+  - eps50

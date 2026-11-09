@@ -1,0 +1,57 @@
+experiment:
+  name: mia_dp_eps10_writingprompts
+  output_dir: outputs/inference/final_workflows/writingprompts/mia_dp_eps10
+project:
+  run_name: mia_dp_eps10_writingprompts
+  output_root: outputs/inference
+  seed: 1337
+dataset:
+  name: writingprompts
+  modality: text
+  member_split: train_full
+  nonmember_split: mi_reserve_not_in_training
+models:
+  target:
+    checkpoint_dir: completed_runs/writingprompts/dp_full_lora_eps10__20260505-130715-zsoo
+cache:
+  output_dir: outputs/inference/final_workflows/writingprompts/mia_dp_eps10
+  overwrite: false
+cpk:
+  enabled: false
+mia:
+  limit: 1000
+  batch_size: 16
+  max_sequence_tokens: 2048
+  text_scoring_mode: prompt_target
+  equalize_class_counts: true
+minkpp:
+  k_percent_grid:
+  - 5
+  - 10
+  - 20
+  - 30
+  - 40
+  - 50
+  default_k_percent: 20
+  epsilon: 1.0e-08
+mia_analysis:
+  fpr_grid:
+  - 0.01
+  - 0.05
+  - 0.1
+  fpr_points: 100
+runtime:
+  device: cuda
+  text_dtype: fp16
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags:
+  - mia
+  - final_mia
+  - writingprompts
+  - text
+  - dp
+  - eps10

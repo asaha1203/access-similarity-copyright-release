@@ -1,0 +1,69 @@
+experiment:
+  name: mia_cpk_automathtext
+  output_dir: outputs/inference/final_workflows/automathtext/mia_cpk
+project:
+  run_name: mia_cpk_automathtext
+  output_root: outputs/inference
+  seed: 1337
+dataset:
+  name: automathtext
+  modality: text
+  member_split: train_full
+  nonmember_split: mi_reserve_not_in_training
+models:
+  target:
+    checkpoint_dir: completed_runs/automathtext/baseline_full_lora__20260505-051327-wjnx
+  draft_p:
+    checkpoint_dir: completed_runs/automathtext/baseline_full_lora__20260505-051327-wjnx
+  shard_q1:
+    checkpoint_dir: completed_runs/automathtext/shard1_lora__20260505-055526-ts74
+  shard_q2:
+    checkpoint_dir: completed_runs/automathtext/shard2_lora__20260505-061208-1vt6
+cache:
+  output_dir: outputs/inference/final_workflows/automathtext/mia_cpk
+  overwrite: false
+cpk:
+  enabled: true
+  acceptance_rates:
+  - 0.1
+  - 0.25
+  - 0.5
+  - 0.75
+  - 1.0
+  compute_inline: false
+mia:
+  limit: 1000
+  batch_size: 16
+  max_sequence_tokens: 2048
+  text_scoring_mode: prompt_target
+  equalize_class_counts: true
+minkpp:
+  k_percent_grid:
+  - 5
+  - 10
+  - 20
+  - 30
+  - 40
+  - 50
+  default_k_percent: 20
+  epsilon: 1.0e-08
+mia_analysis:
+  fpr_grid:
+  - 0.01
+  - 0.05
+  - 0.1
+  fpr_points: 100
+runtime:
+  device: cuda
+  text_dtype: fp16
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags:
+  - mia
+  - final_mia
+  - automathtext
+  - text
+  - cpk

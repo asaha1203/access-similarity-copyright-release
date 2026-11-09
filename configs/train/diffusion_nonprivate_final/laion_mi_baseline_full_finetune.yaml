@@ -1,0 +1,30 @@
+run_name: baseline_full_finetune
+dataset_key: laion_mi
+split_name: train_full
+model_name_or_path: CompVis/stable-diffusion-v1-4
+output_subdir: laion_mi
+resolution: 512
+num_train_epochs: 50
+train_batch_size: 16
+learning_rate: 5.0e-05
+text_encoder_learning_rate: 0.000001
+train_text_encoder: false
+finetune_mode: full_unet
+lora_r: 64
+lora_alpha: 16
+lora_dropout: 0.0
+dp_enabled: false
+target_epsilon: 10.0
+delta: 1.0e-5
+max_grad_norm: 1.0
+dp_accountant: prv
+dp_secure_mode: false
+dp_grad_sample_mode: ghost
+seed: 1337
+use_cpu: false
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags: ["diffusion", "laion_mi", "baseline", "full_unet", "new_final"]

@@ -1,0 +1,72 @@
+experiment:
+  name: dra_dp_eps20_writingprompts
+  output_dir: outputs/inference/final_workflows/writingprompts/dra_dp_eps20
+project:
+  run_name: dra_dp_eps20_writingprompts
+  output_root: outputs/inference
+  seed: 1337
+dataset:
+  name: writingprompts
+  modality: text
+  target_split: train_full
+models:
+  target:
+    checkpoint_dir: completed_runs/writingprompts/dp_full_lora_eps20__20260505-143217-hs5c
+cache:
+  output_dir: outputs/inference/final_workflows/writingprompts/dra_dp_eps20
+  overwrite: false
+cpk:
+  enabled: false
+dra_generation:
+  target_limit: 1000
+  num_candidates_per_target: 10
+  target_batch_size: 5
+generation:
+  max_new_tokens: 512
+  temperature: 1.0
+  top_p: 0.95
+  top_k: 50
+  do_sample: true
+minkpp:
+  k_percent_grid:
+  - 5
+  - 10
+  - 20
+  - 30
+  - 40
+  - 50
+  default_k_percent: 20
+  epsilon: 1.0e-08
+mia:
+  batch_size: 16
+  max_sequence_tokens: 512
+dra_distance:
+  text_metrics:
+  - normalized_levenshtein
+  - bleu
+  - bertscore_f1
+  - rouge_l
+  batch_size: 32
+  text_chunk_size: 128
+  text_num_workers: 16
+  bertscore_batch_size: 32
+  bertscore_half_precision: true
+  bertscore_deduplicate_pairs: true
+  bertscore_lang: en
+  rouge_l_use_stemmer: true
+runtime:
+  device: cuda
+  text_compile_model: false
+  text_attention_implementation: flash_attention_3
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags:
+  - dra
+  - final_dra
+  - writingprompts
+  - text
+  - dp
+  - eps20

@@ -1,0 +1,51 @@
+experiment:
+  name: mia_dp_eps10_pokemon
+  output_dir: outputs/inference/final_workflows/pokemon/mia_dp_eps10
+project:
+  run_name: mia_dp_eps10_pokemon
+  output_root: outputs/inference
+  seed: 1337
+dataset:
+  name: pokemon
+  modality: image
+  member_split: train_full
+  nonmember_split: mi_reserve_not_in_training
+models:
+  target:
+    checkpoint_dir: completed_runs/pokemon/dp_full_finetune_eps10__20260505-082757-s7ai
+cache:
+  output_dir: outputs/inference/final_workflows/pokemon/mia_dp_eps10
+  overwrite: false
+cpk:
+  enabled: false
+mia:
+  limit: 1000
+  batch_size: 16
+  num_workers: 4
+pia:
+  norm_p: 4
+  default_timestep: 200
+  beta_schedule: pipeline
+mia_analysis:
+  fpr_grid:
+  - 0.01
+  - 0.05
+  - 0.1
+  fpr_points: 100
+runtime:
+  device: cuda
+  strict_adapter_load: true
+  amp: true
+  diffusion_dtype: fp16
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags:
+  - mia
+  - final_mia
+  - pokemon
+  - image
+  - dp
+  - eps10

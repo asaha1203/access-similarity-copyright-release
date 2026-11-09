@@ -1,0 +1,39 @@
+run_name: dp_full_finetune_eps5
+dataset_key: laion_mi
+split_name: train_full
+model_name_or_path: CompVis/stable-diffusion-v1-4
+output_subdir: laion_mi
+resolution: 512
+num_train_epochs: 25
+train_batch_size: 64
+learning_rate: 5.0e-05
+text_encoder_learning_rate: 1.0e-06
+train_text_encoder: false
+finetune_mode: full_unet
+lora_r: 64
+lora_alpha: 16
+lora_dropout: 0.0
+dp_enabled: true
+target_epsilon: 5.0
+delta: 1.0e-05
+max_grad_norm: 1.0
+dp_accountant: rdp
+dp_secure_mode: false
+dp_grad_sample_mode: ghost
+dp_poisson_sampling: true
+dp_max_physical_batch_size: 12
+seed: 1337
+use_cpu: false
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags:
+  - diffusion
+  - laion_mi
+  - dp
+  - eps5
+  - full_unet
+  - new_final
+

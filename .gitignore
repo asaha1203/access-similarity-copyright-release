@@ -1,0 +1,39 @@
+# Python caches/build
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Local environments / editor
+.env
+.venv/
+venv/
+.DS_Store
+.ipynb_checkpoints/
+
+# Experiment artifacts
+runs/
+wandb/
+logs/
+outputs/
+*.log
+*.tmp
+
+# Large local datasets and model caches
+data/
+!data/.gitkeep
+!data/**/.gitkeep
+
+completed_nonprivate_runs/*
+completed_private_runs/*
+
+completed_runs/*
+
+outputs/*
+
+models/*

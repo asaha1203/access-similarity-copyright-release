@@ -1,0 +1,65 @@
+experiment:
+  name: mia_cpk_laion_mi
+  output_dir: outputs/inference/final_workflows/laion_mi/mia_cpk
+project:
+  run_name: mia_cpk_laion_mi
+  output_root: outputs/inference
+  seed: 1337
+dataset:
+  name: laion_mi
+  modality: image
+  member_split: train_full
+  nonmember_split: mi_reserve_not_in_training
+models:
+  target:
+    checkpoint_dir: completed_runs/laion_mi/baseline_full_finetune__20260505-035304-bk0p
+  draft_p:
+    checkpoint_dir: completed_runs/laion_mi/baseline_full_finetune__20260505-035304-bk0p
+  shard_q1:
+    checkpoint_dir: completed_runs/laion_mi/shard1_full_finetune__20260505-041659-1fnr
+  shard_q2:
+    checkpoint_dir: completed_runs/laion_mi/shard2_full_finetune__20260505-043000-2ymi
+cache:
+  output_dir: outputs/inference/final_workflows/laion_mi/mia_cpk
+  overwrite: false
+cpk:
+  enabled: true
+  acceptance_rates:
+  - 0.1
+  - 0.25
+  - 0.5
+  - 0.75
+  - 1.0
+  compute_inline: false
+  trajectory_steps: 10
+  store_trajectory_debug: false
+mia:
+  limit: 1000
+  batch_size: 16
+  num_workers: 4
+pia:
+  norm_p: 4
+  default_timestep: 200
+  beta_schedule: pipeline
+mia_analysis:
+  fpr_grid:
+  - 0.01
+  - 0.05
+  - 0.1
+  fpr_points: 100
+runtime:
+  device: cuda
+  strict_adapter_load: true
+  amp: true
+  diffusion_dtype: fp16
+wandb:
+  enabled: true
+  project: copyright-paper
+  entity: null
+  run_name: null
+  tags:
+  - mia
+  - final_mia
+  - laion_mi
+  - image
+  - cpk
